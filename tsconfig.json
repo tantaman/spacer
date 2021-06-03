@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
+    "outDir": "./dist/js",
     "sourceMap": true,
     "strictNullChecks": true,
     "module": "esnext",
@@ -9,5 +9,5 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["./src/"]
+  "include": ["./src/js"]
 }
