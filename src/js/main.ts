@@ -1,23 +1,24 @@
 import "./log.js";
 
-not_null(document.getElementById("canvas"))
-  .then(init_game)
-  .else(() => tell_user(error("Cannot initialize game")));
+function error(msg: string): Error {
+  return new Error(msg);
+}
 
-function error(msg: string) {}
-
-function init_game(canvas: HTMLCanvasElement) {
+function start_game(canvas: HTMLCanvasElement) {
   full_screen(canvas);
 }
 
 function tell_user(e: Error) {}
 
-function full_screen(el: HTMLElement | null) {
-  if (el == null) {
-    return;
+function full_screen(el: HTMLCanvasElement) {
+  el.width = window.innerWidth;
+  el.height = window.innerHeight;
+}
+
+function if_string<R>(x: any, f: (x: string) => R): R | undefined {
+  if (typeof x === "string") {
+    return f(x);
   }
-  el.style.width = parseInt(window.innerWidth, 10);
-  el.style.height = parseInt(window.innerHeight, 10);
 }
 
 function not_null<T>(x: T | null): Condition<T, null> {
@@ -37,6 +38,7 @@ class Pass<T> implements Condition<T, any> {
   constructor(private p: T) {}
 
   then(cb: (x: T) => void): this {
+    cb(this.p);
     return this;
   }
 
@@ -48,11 +50,16 @@ class Pass<T> implements Condition<T, any> {
 class Fail<Y> implements Condition<any, Y> {
   constructor(private p: Y) {}
 
-  then(cb: (x: T) => void): this {
+  then(cb: (x: any) => void): this {
     return this;
   }
 
-  else(cb: (X: Y) => void): this {
+  else(cb: (x: Y) => void): this {
+    cb(this.p);
     return this;
   }
 }
+
+not_null(document.getElementById("canvas"))
+  .then(start_game)
+  .else(() => tell_user(error("Cannot initialize game")));

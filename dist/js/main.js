@@ -1,18 +1,19 @@
 import "./log.js";
-not_null(document.getElementById("canvas"))
-    .then(init_game)
-    .else(() => tell_user(error("Cannot initialize game")));
-function error(msg) { }
-function init_game(canvas) {
+function error(msg) {
+    return new Error(msg);
+}
+function start_game(canvas) {
     full_screen(canvas);
 }
 function tell_user(e) { }
 function full_screen(el) {
-    if (el == null) {
-        return;
+    el.width = window.innerWidth;
+    el.height = window.innerHeight;
+}
+function if_string(x, f) {
+    if (typeof x === "string") {
+        return f(x);
     }
-    el.style.width = parseInt(window.innerWidth, 10);
-    el.style.height = parseInt(window.innerHeight, 10);
 }
 function not_null(x) {
     if (x == null) {
@@ -26,6 +27,7 @@ class Pass {
         this.p = p;
     }
     then(cb) {
+        cb(this.p);
         return this;
     }
     else(cb) {
@@ -41,7 +43,11 @@ class Fail {
         return this;
     }
     else(cb) {
+        cb(this.p);
         return this;
     }
 }
+not_null(document.getElementById("canvas"))
+    .then(start_game)
+    .else(() => tell_user(error("Cannot initialize game")));
 //# sourceMappingURL=main.js.map
