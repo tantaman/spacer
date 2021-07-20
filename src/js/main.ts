@@ -4,10 +4,6 @@ function error(msg: string): Error {
   return new Error(msg);
 }
 
-function start_game(canvas: HTMLCanvasElement) {
-  full_screen(canvas);
-}
-
 function tell_user(e: Error) {}
 
 function full_screen(el: HTMLCanvasElement) {
@@ -58,6 +54,10 @@ class Fail<Y> implements Condition<any, Y> {
     cb(this.p);
     return this;
   }
+}
+
+function start_game(canvas: HTMLCanvasElement) {
+  full_screen(canvas);
 }
 
 not_null(document.getElementById("canvas"))

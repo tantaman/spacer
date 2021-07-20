@@ -2,9 +2,6 @@ import "./log.js";
 function error(msg) {
     return new Error(msg);
 }
-function start_game(canvas) {
-    full_screen(canvas);
-}
 function tell_user(e) { }
 function full_screen(el) {
     el.width = window.innerWidth;
@@ -46,6 +43,9 @@ class Fail {
         cb(this.p);
         return this;
     }
+}
+function start_game(canvas) {
+    full_screen(canvas);
 }
 not_null(document.getElementById("canvas"))
     .then(start_game)
